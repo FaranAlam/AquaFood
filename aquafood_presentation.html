@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaFood - FYDP Presentation</title>
+    <link rel="icon" href="AquaFood logo.jpg" type="image/jpeg" sizes="32x32">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            padding: 60px;
+            color: white;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+            animation: slideIn 0.7s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide.prev {
+            animation: slideOut 0.7s ease-out;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+        }
+
+        /* Slide Backgrounds */
+        .bg-gradient-blue {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .bg-gradient-dark {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        .bg-gradient-purple {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .bg-gradient-green {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+
+        .bg-gradient-orange {
+            background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
+        }
+
+        .bg-gradient-red {
+            background: linear-gradient(135deg, #c31432 0%, #240b36 100%);
+        }
+
+        .bg-gradient-teal {
+            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+        }
+
+        .bg-gradient-pink {
+            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        }
+
+        .bg-gradient-indigo {
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+        }
+
+        /* Title Slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .title-slide .subtitle {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .title-slide .meta {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Standard Slide Layout */
+        .slide-header {
+            margin-bottom: 40px;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 20px;
+        }
+
+        .slide-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        /* List Styles */
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-list li {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 5px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            animation: fadeInLeft 0.5s ease-out backwards;
+        }
+
+        .content-list li:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .content-list li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .content-list li:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .content-list li:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .content-list li:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .content-list li:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content-list li:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.2);
+            border-left-color: #fff;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: zoomIn 0.5s ease-out backwards;
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Team Slide */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .supervisor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: left;
+            font-size: 1.2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .data-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Instruction */
+        .instruction {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+
+        /* References */
+        .reference-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .reference-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Block Diagram */
+        .block-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .block {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px 40px;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: blockPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes blockPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .arrow-down {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+
+        /* Scrollbar */
+        .slide-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .team-avatar img {
+            width: 100px;
+            /* adjust size */
+            height: 100px;
+            /* keep it square */
+            border-radius: 50%;
+            /* makes it circular */
+            object-fit: cover;
+            /* ensures image fills circle nicely */
+            display: block;
+            margin: 0 auto 0.5rem auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation-container">
+
+        <div class="slide active title-slide bg-gradient-blue">
+            <div class="icon">
+                <img src="AquaFood logo.jpg" alt="AquaFood Logo"
+                    style="width: 170px; height: 170px; border-radius: 90px;">
+            </div>
+            <h1>AquaFood</h1>
+            <div class="subtitle">Hybrid Non-Contact Food & Water Quality Monitoring Device</div>
+            <div class="meta">
+                <p style="margin-bottom: 10px;">Final Year Design Project - Defense Presentation</p>
+                <p>October 2025</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Team -->
+        <div class="slide bg-gradient-dark">
+            <div class="slide-header">
+                <h2>Presented By</h2>
+            </div>
+            <div class="slide-content">
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-avatar">UH</div>
+                        <h3>Umer Hayat</h3>
+                        <p>Project Leader</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">24-FET/BSCE/F22</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">MK</div>
+                        <h3>Mohammad Khuzaifa</h3>
+                        <p>Team Member</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">32-FET/BSCE/F22</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">FA</div>
+                        <h3>Faran Alam</h3>
+                        <p>Team Member</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">40-FET/BSCE/F22</p>
+                    </div>
+                </div>
+                <div class="supervisor-grid">
+                    <div class="card">
+                        <h3>Supervised By</h3>
+                        <p style="font-size: 1.4rem; margin-top: 10px;">Engr. Adeel Jadoon</p>
+                    </div>
+                    <div class="card">
+                        <h3>Co-Supervised By</h3>
+                        <p style="font-size: 1.4rem; margin-top: 10px;">—</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Introduction -->
+        <div class="slide bg-gradient-green">
+            <div class="slide-header">
+                <h2>Introduction</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li>🌍 Rising concern of food and water contamination worldwide</li>
+                    <li>⚠️ Millions suffer annually due to adulterated or unsafe consumption</li>
+                    <li>🔬 Traditional testing methods are slow, expensive, and lab-based</li>
+                    <li>❌ Lack of affordable, real-time, consumer-level detection devices</li>
+                    <li>✅ <strong>Proposed Solution:</strong> Hybrid Non-Contact Detector using multi-sensor fusion (
+                        UV,
+                        Gas, Color, and Temperature sensors) for real-time quality analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Application Areas - Water -->
+        <div class="slide bg-gradient-teal">
+            <div class="slide-header">
+                <h2>Application Areas - Water Quality</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="icon">🏠</div>
+                        <h3>Households</h3>
+                        <p>Daily drinking water safety and purification check</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🏘️</div>
+                        <h3>Municipal</h3>
+                        <p>Municipal and rural water supply monitoring</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🔍</div>
+                        <h3>Field Testing</h3>
+                        <p>Portable field testing for contamination and turbidity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Application Areas - Food & Others -->
+        <div class="slide bg-gradient-teal">
+            <div class="slide-header">
+                <h2>Application Areas - Food & Others</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>🍎 Food Industry</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Detection of spoilage in fruits, dairy, and packaged foods</li>
+                            <li>Quality control during food storage and processing</li>
+                            <li>Identification of chemical adulteration in beverages</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>🏥 Public Health & Safety</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Rapid contamination detection in schools, hospitals, and restaurants</li>
+                            <li>Prevention of foodborne and waterborne diseases</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Research Gap & Motivation -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Research Gap & Motivation</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card" style="background: rgba(255,0,0,0.2); border-color: #ff4444;">
+                        <h3>⚠️ Research Gap</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Existing methods are lab-based, time-consuming, and expensive</li>
+                            <li>Smart packaging only indicates freshness, not actual contamination</li>
+                            <li>Limited research on hybrid non-contact devices for real-time detection</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="background: rgba(0,255,0,0.2); border-color: #44ff44;">
+                        <h3>💡 Motivation</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Ensure safe food and water consumption in everyday life</li>
+                            <li>Develop a low-cost, portable, non-invasive hybrid system</li>
+                            <li>Contribute to UN SDGs: Good Health (3), Clean Water (6), Responsible Consumption (12)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Objectives -->
+        <div class="slide bg-gradient-indigo">
+            <div class="slide-header">
+                <h2>Project Objectives</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li>🎯 Develop a portable, low-cost, hybrid laser-based tester for both food and water quality
+                        detection
+                    </li>
+                    <li>🔬 Implement optical sensing and biospeckle analysis for non-contact contamination detection
+                    </li>
+                    <li>🤖 Apply signal processing and machine learning models to classify adulterants and impurities
+                    </li>
+                    <li>📱 Design a user-friendly interface (dashboard/mobile/web) for real-time monitoring and analysis
+                    </li>
+                    <li>✅ Validate the system with real-world food and water samples under diverse conditions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: Societal Impact -->
+        <div class="slide bg-gradient-green">
+            <div class="slide-header">
+                <h2>Societal & Industrial Impact</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="icon">🏥</div>
+                        <h3>Public Health</h3>
+                        <p>Early detection of contamination helps prevent waterborne and foodborne diseases</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🏭</div>
+                        <h3>Industry</h3>
+                        <p>Assists food processing plants and water utilities in real-time quality control</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">💰</div>
+                        <h3>Cost-Effective</h3>
+                        <p>Reduces reliance on expensive lab-based testing, enabling affordable field deployment</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🌱</div>
+                        <h3>Sustainability (SDGs)</h3>
+                        <p>Contributes to Clean Water (SDG 6), Good Health (SDG 3), and Responsible Consumption (SDG 12)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Problem Statement -->
+        <div class="slide bg-gradient-red">
+            <div class="slide-header">
+                <h2>Problem Statement</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    Food and water contamination is a serious global health issue
+                </div>
+                <h3 style="margin: 30px 0 20px 0; font-size: 2rem;">Conventional Testing Methods:</h3>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="icon">⏱️</div>
+                        <h3>Time-consuming</h3>
+                        <p>Require laboratory analysis and multiple testing stages</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">💸</div>
+                        <h3>Expensive</h3>
+                        <p>Depend on specialized equipment and trained personnel</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🚫</div>
+                        <h3>Not portable</h3>
+                        <p>Unsuitable for on-site or real-time detection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Unmet Need -->
+        <div class="slide bg-gradient-orange">
+            <div class="slide-header">
+                <h2>Unmet Need</h2>
+            </div>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    Lack of a real-time, portable, and affordable solution for detecting food and water contamination or
+                    adulteration
+                </div>
+                <ul class="content-list" style="margin-top: 30px;">
+                    <li>❌ Existing smart packaging and laboratory methods cannot provide direct, on-the-spot quality
+                        testing
+                    </li>
+                    <li>❓ <strong>Problem Definition:</strong> How can we design a low-cost, portable, laser-assisted
+                        hybrid
+                        system that detects food and water contamination in real time using optical sensing and machine
+                        learning?</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 11: Design Methodology Part 1 -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Design Methodology (Part 1)</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li><strong>1. Requirement & Specification Gathering:</strong> Define target contaminants
+                        (microbial,
+                        chemical, adulterants), detection limits, portability, budget, and regulatory constraints</li>
+                    <li><strong>2. System Architecture & Component Selection:</strong> Choose hybrid sensors (UV,
+                        Gas,
+                        Color, Temperature) and microcontroller (ESP32 / Raspberry Pi). Design a modular, non-contact
+                        optical
+                        enclosure</li>
+                    <li><strong>3. Hardware Prototyping:</strong> Build the prototype integrating sensors, optics,
+                        power, and
+                        wireless connectivity (Wi-Fi / Bluetooth). Conduct calibration and initial validation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Design Methodology Part 2 -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Design Methodology (Part 2)</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li><strong>4. Data Acquisition & Calibration:</strong> Acquire raw sensor signals from clean and
+                        contaminated samples. Calibrate results against laboratory references</li>
+                    <li><strong>5. Signal Processing & Feature Extraction:</strong> Denoise data using filters, apply
+                        FFT or
+                        spectrogram transformations, and compute biospeckle or optical statistics</li>
+                    <li><strong>6. Machine Learning Model Development:</strong> Train classifiers (SVM, RandomForest,
+                        CNN) and
+                        regression models for impurity estimation. Perform cross-validation and hyperparameter
+                        optimization</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 13: Design Methodology Part 3 -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Design Methodology (Part 3)</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li><strong>7. Integration & UI:</strong> Deploy the trained ML inference model on an edge device.
+                        Develop
+                        an interactive dashboard (Streamlit, Gradio, or web) for real-time visualization and data
+                        logging</li>
+                    <li><strong>8. Validation & Field Testing:</strong> Conduct testing on blind food and water samples.
+                        Compare
+                        system outputs with laboratory reference results. Evaluate performance metrics</li>
+                    <li><strong>9. Optimization & Documentation:</strong> Optimize sensor arrangement, sampling
+                        geometry, and
+                        power usage. Prepare user manual, SOPs, and final project report</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: System Block Diagram -->
+        <div class="slide bg-gradient-indigo">
+            <div class="slide-header">
+                <h2>Implementation - System Block Diagram</h2>
+            </div>
+            <div class="slide-content">
+                <div class="block-diagram">
+                    <div class="block">UV Source + Camera</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="block">Sample Holder</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="block">Optical Sensor / Photodetector</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="block">Signal Processor (ESP32 / Arduino)</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="block">Laptop / PC (Signal Processing & ML)</div>
+                    <div class="arrow-down">↓</div>
+                    <div class="block">User Interface (Web Dashboard / Streamlit)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Hardware Modules -->
+        <div class="slide bg-gradient-dark">
+            <div class="slide-header">
+                <h2>Hardware Modules</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Core Components</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Laser Diode Module</li>
+                            <li>Optical Sensor / Photodiode</li>
+                            <li>Turbidity, pH, and TDS Sensors</li>
+                            <li>Microcontroller (ESP32 / Raspberry Pi)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Additional Components</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>Sample Holder / Enclosure</li>
+                            <li>OLED / LCD Display (Optional)</li>
+                            <li>Power Supply Module</li>
+                            <li>Wireless Connectivity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Software Stack -->
+        <div class="slide bg-gradient-teal">
+            <div class="slide-header">
+                <h2>Software Stacks & Platforms</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Arduino IDE</h3>
+                        <p>MCU programming, sensor control, data acquisition routines</p>
+                    </div>
+                    <div class="card">
+                        <h3>Python</h3>
+                        <p>Data preprocessing, signal analysis, ML integration</p>
+                    </div>
+                    <div class="card">
+                        <h3>TensorFlow / Hugging Face</h3>
+                        <p>ML model development and training for quality classification</p>
+                    </div>
+                    <div class="card">
+                        <h3>MATLAB / Simulink</h3>
+                        <p>Initial simulation of laser-signal interactions</p>
+                    </div>
+                    <div class="card">
+                        <h3>Gradio / Streamlit</h3>
+                        <p>Interactive UI and real-time dashboard creation</p>
+                    </div>
+                    <div class="card">
+                        <h3>Cloud Storage</h3>
+                        <p>Data logging and model deployment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Techniques & Methods -->
+        <div class="slide bg-gradient-blue">
+            <div class="slide-header">
+                <h2>Techniques & Methods</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Spectral Analysis</h3>
+                        <p>Reflected laser signal spectrum used to identify contamination patterns</p>
+                    </div>
+                    <div class="card">
+                        <h3>Digital Filtering</h3>
+                        <p>FFT and bandpass filtering for denoising and signal enhancement</p>
+                    </div>
+                    <div class="card">
+                        <h3>Machine Learning</h3>
+                        <p>Classifies samples as clean/contaminated or fresh/spoiled using trained models</p>
+                    </div>
+                    <div class="card">
+                        <h3>Data Storage</h3>
+                        <p>Cloud/local record management for results and model retraining</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Milestones 7th Semester -->
+        <div class="slide bg-gradient-green">
+            <div class="slide-header">
+                <h2>Project Milestones - 7th Semester</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li><strong>Literature Review & Problem Formulation</strong><br>Study existing research, identify
+                        gaps, define objectives</li>
+                    <li><strong>System Design & Block Diagrams</strong><br>Draft architecture, data flow, and sensing
+                        pathways</li>
+                    <li><strong>Hardware Component Selection & Procurement</strong><br>Choose laser, sensors, MCU
+                        (ESP32/Arduino), optics</li>
+                    <li><strong>Initial Prototyping</strong><br>Integrate laser + photodiode + microcontroller</li>
+                    <li><strong>Preliminary Signal Acquisition & Calibration</strong><br>Record clean vs contaminated
+                        samples; calibrate readings</li>
+                    <li><strong>Basic UI Mockup</strong><br>Design simple interface for result display (Streamlit /
+                        Gradio)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 19: Milestones 8th Semester -->
+        <div class="slide bg-gradient-green">
+            <div class="slide-header">
+                <h2>Project Milestones - 8th Semester</h2>
+            </div>
+            <div class="slide-content">
+                <ul class="content-list">
+                    <li><strong>Complete Hardware Integration</strong><br>Combine laser, sensors, and microcontroller
+                        into final prototype</li>
+                    <li><strong>Advanced Signal Processing & ML Training</strong><br>Apply filtering, FFT, and train
+                        models (SVM/CNN) for detection</li>
+                    <li><strong>User Dashboard Development</strong><br>Build real-time interface for displaying test
+                        results</li>
+                    <li><strong>Field Testing & Validation</strong><br>Test device with actual samples; compare against
+                        lab data</li>
+                    <li><strong>Optimization & Documentation</strong><br>Improve accuracy, stability, and finalize
+                        technical documentation</li>
+                    <li><strong>Final Report & Presentation</strong><br>Prepare full FYP report, poster, and final
+                        presentation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 20: Team Roles -->
+        <div class="slide bg-gradient-indigo">
+            <div class="slide-header">
+                <h2>Team Roles & Responsibilities</h2>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Member 1</h3>
+                        <p>Focus on hardware setup - laser, sensors, ESP32/Raspberry Pi integration, and partial
+                            documentation</p>
+                    </div>
+                    <div class="card">
+                        <h3>Member 2</h3>
+                        <p>Lead software and machine learning model development - data processing, training, and testing
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h3>Member 3</h3>
+                        <p>Support hardware integration and software UI (Streamlit/Gradio); assist in validation and
+                            testing</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    All Members: Contribute to report writing, documentation, and final presentation
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Timeline Part 1 -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Time Analysis (Sep 2025 - Jan 2026)</h2>
+            </div>
+            <div class="slide-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Major Activities / Deliverables</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>September 2025</strong></td>
+                            <td>Problem identification, literature review, finalize research gap and objectives</td>
+                        </tr>
+                        <tr>
+                            <td><strong>October 2025</strong></td>
+                            <td>System design (block diagrams, architecture), selection of sensors and laser modules
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>November 2025</strong></td>
+                            <td>Procurement of components, initial hardware prototyping (laser, sensors, ESP32/Raspberry Pi)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>December 2025</strong></td>
+                            <td>Data acquisition setup, calibration using reference samples, initial data logging</td>
+                        </tr>
+                        <tr>
+                            <td><strong>January 2026</strong></td>
+                            <td>Signal processing pipeline (FFT/filtering), early ML model design and testing</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 22: Timeline Part 2 -->
+        <div class="slide bg-gradient-purple">
+            <div class="slide-header">
+                <h2>Time Analysis (Feb - Jun 2026)</h2>
+            </div>
+            <div class="slide-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Major Activities / Deliverables</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>February 2026</strong></td>
+                            <td>Full hardware-software integration, refine ML model accuracy, develop UI prototype</td>
+                        </tr>
+                        <tr>
+                            <td><strong>March 2026</strong></td>
+                            <td>Field testing with real samples (water, milk, juices) and performance evaluation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>April 2026</strong></td>
+                            <td>System optimization (power, accuracy, portability), improve UI/UX, add reporting module
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>May 2026</strong></td>
+                            <td>Validation against lab results, complete documentation, finalize hardware enclosure</td>
+                        </tr>
+                        <tr>
+                            <td><strong>June 2026</strong></td>
+                            <td>Final testing, report writing, presentation preparation, and FYP submission</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 23: Cost Analysis - Sensors -->
+        <div class="slide bg-gradient-orange">
+            <div class="slide-header">
+                <h2>Cost Analysis - Core Sensors</h2>
+            </div>
+            <div class="slide-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Price (PKR)</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UV/Violet LED + Camera Module</td>
+                            <td>2,500 - 3,000</td>
+                            <td>Fluorescence/reflection detection</td>
+                        </tr>
+                        <tr>
+                            <td>IR Turbidity Sensor (Non-contact)</td>
+                            <td>2,500 - 3,500</td>
+                            <td>Water clarity/turbidity measurement</td>
+                        </tr>
+                        <tr>
+                            <td>IR LED + Photodiode Pair</td>
+                            <td>400 - 600</td>
+                            <td>IR absorption (dissolved solids)</td>
+                        </tr>
+                        <tr>
+                            <td>MLX90614 IR Temperature Sensor</td>
+                            <td>1,500 - 2,000</td>
+                            <td>Surface temperature of samples</td>
+                        </tr>
+                        <tr>
+                            <td>MQ-135 Gas Sensor (VOC)</td>
+                            <td>500 - 700</td>
+                            <td>Volatile organic compounds detection</td>
+                        </tr>
+                        <tr>
+                            <td>MQ-137 Gas Sensor (Ammonia)</td>
+                            <td>600 - 800</td>
+                            <td>Meat/milk spoilage indicator</td>
+                        </tr>
+                        <tr>
+                            <td>TCS34725 Color Sensor</td>
+                            <td>1,200 - 1,500</td>
+                            <td>Color and surface changes detection</td>
+                        </tr>
+                        <tr>
+                            <td>DHT22 Temp & Humidity Sensor</td>
+                            <td>700 - 900</td>
+                            <td>Environmental monitoring</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 24: Cost Analysis - Processing & Others -->
+        <div class="slide bg-gradient-orange">
+            <div class="slide-header">
+                <h2>Cost Analysis - Processing & Misc</h2>
+            </div>
+            <div class="slide-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Price (PKR)</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ESP32 Development Board</td>
+                            <td>1,200 - 1,500</td>
+                            <td>Data processing and wireless module</td>
+                        </tr>
+                        <tr>
+                            <td>MicroSD Card Module</td>
+                            <td>400 - 600</td>
+                            <td>Local data storage</td>
+                        </tr>
+                        <tr>
+                            <td>OLED/LCD Display</td>
+                            <td>1,000 - 1,500</td>
+                            <td>Test results display</td>
+                        </tr>
+                        <tr>
+                            <td>Buzzer + RGB LED Indicators</td>
+                            <td>200 - 400</td>
+                            <td>Visual/audio alerts</td>
+                        </tr>
+                        <tr>
+                            <td>Li-Ion Battery + Charger Module</td>
+                            <td>800 - 1,200</td>
+                            <td>Portable operation</td>
+                        </tr>
+                        <tr>
+                            <td>3D Printed / Acrylic Casing</td>
+                            <td>2,000 - 3,000</td>
+                            <td>Protective enclosure</td>
+                        </tr>
+                        <tr>
+                            <td>Wires, Connectors, PCB</td>
+                            <td>1,000 - 1,500</td>
+                            <td>General prototyping costs</td>
+                        </tr>
+                        <tr>
+                            <td>Cloud / Software Tools</td>
+                            <td>2,000 - 3,000</td>
+                            <td>ML model training, deployment</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <strong>Total Estimated Cost: Rs. 25,000 - 35,000 (Approx.)</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: References 1 -->
+        <div class="slide bg-gradient-dark">
+            <div class="slide-header">
+                <h2>References (1/2)</h2>
+            </div>
+            <div class="slide-content">
+                <div class="reference-item">
+                    <span class="reference-number">[1]</span>
+                    M. Nisenbaum, S. P. Agustinelli, M. N. Guzmán, and S. E. Murialdo, "Biospeckle laser for real-time
+                    monitoring of water and food samples: Enhancing contamination detection and quality control in field
+                    applications," Detection and Diagnosis in Sensors, May 2025.
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">[2]</span>
+                    A. R. Anwar, M. Mur, G. Michailidou, D. N. Bikiaris, and M. Humar, "Edible microlasers for
+                    monitoring authenticity and quality of food and pharmaceuticals," arXiv:2405.20937 [physics.optics],
+                    May 2024.
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">[3]</span>
+                    Y. Chen, Y. Li, S. Qin, S. Han, and H. Qi, "Antimicrobial, UV blocking, water-resistant and
+                    degradable coatings and packaging films based on wheat gluten and lignocellulose for food
+                    preservation," Carbohydrate Polymers, vol. 287, Apr. 2022.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: References 2 -->
+        <div class="slide bg-gradient-dark">
+            <div class="slide-header">
+                <h2>References (2/2)</h2>
+            </div>
+            <div class="slide-content">
+                <div class="reference-item">
+                    <span class="reference-number">[4]</span>
+                    H. Jiang, S. Zhao, Z. Li, L. Chen, H. Mo, and X. Liu, "Swan-feathers inspired smart-responsive
+                    sustainable carboxymethyl cellulose/polyvinyl alcohol based food packaging film for robustly
+                    integrated Intelligent and Active Packaging," Nano Today, vol. 56, Jun. 2024.
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">[5]</span>
+                    Y. Feng, Y. Zhang, K. Huang, S. Li, H. Cao, and X. Guan, "Application of fat replacers in low-fat
+                    starch-based foods: Type, formulation and action mechanism on food quality," Food Research
+                    International, vol. 156, Apr. 2025.
+                </div>
+                <div class="reference-item">
+                    <span class="reference-number">[6]</span>
+                    F. Sun, J. Zhao, P. Shan, K. Wang, H. Li, and L. Peng, "Gelatin-based composite film integrated with
+                    nanocellulose and extract-metal complex derived from coffee leaf for sustainable and active food
+                    packaging," International Journal of Biological Macromolecules, vol. 234, Sept. 2024.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Thank You -->
+        <div class="slide title-slide bg-gradient-pink">
+            <h1>Thank You!</h1>
+            <div class="subtitle">Questions?</div>
+            <div class="meta" style="margin-top: 40px;">
+                <p style="font-size: 1.5rem; margin-bottom: 10px;">Presented by: Team AquaFood</p>
+                <p style="font-size: 1.2rem;">Department of Electrical & Computer Engineering</p>
+                <p style="font-size: 1.2rem;">International Islamic University Islamabad</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="instruction">
+        Use ← → arrow keys to navigate
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◄</button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">27</span>
+        </div>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">►</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('prev');
+
+            setTimeout(() => {
+                slides[currentSlide].classList.remove('prev');
+            }, 700);
+
+            currentSlide = n;
+
+            if (currentSlide >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            }
+            if (currentSlide < 0) {
+                currentSlide = 0;
+            }
+
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowRight') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
