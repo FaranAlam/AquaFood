@@ -1,0 +1,8 @@
+git init
+git remote -v
+git remote add origin https://github.com/FaranAlam/AquaFood.git
+git add .
+git commit -m "Updated project files with latest presentation and logo"
+git branch -M main
+git push -u origin main
+git push
